@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import dayjs from 'dayjs';
 import 'dayjs/locale/pt-br'; // Importar locale pt-br
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
+import Api from "../servico/Api";
 
 import RelatorioFluxoDeCaixa from './RelatorioFluxoDeCaixa';
 import RelatorioDespesasPorCategoria from './RelatorioDespesasPorCategoria';
@@ -31,7 +31,7 @@ export default function RelatoriosPage() {
     const fetchMovimentacoes = async () => {
       setLoading(true);
       try {
-        const { data } = await axios.get("http://localhost:5000/movimentacoes");
+        const { data } = await Api.api.get("/movimentacoes");
         console.log("DEBUG: Todas as Movimentações da API:", data); // <--- ADICIONE AQUI
         setTodasMovimentacoes(data);
 

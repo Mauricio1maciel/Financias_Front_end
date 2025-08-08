@@ -1,9 +1,9 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import axios from "axios";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc.js";
 import timezone from "dayjs/plugin/timezone.js";
+import Api from "../servico/Api";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -37,10 +37,10 @@ export default function FormRecDes() {
     try {
       if (id) {
         // Atualização
-        await axios.put(`http://localhost:5000/movimentacoes/${id}`, dados);
+        await Api.api.put(`/movimentacoes/${id}`, dados);
       } else {
         // Criação
-        await axios.post("http://localhost:5000/movimentacoes", dados);
+        await Api.api.post("/movimentacoes", dados);
       }
       voltar();
     } catch (erro) {
@@ -53,7 +53,7 @@ export default function FormRecDes() {
   const excluir = async () => {
     if (window.confirm("Deseja realmente excluir este registro?")) {
       try {
-        await axios.delete(`http://localhost:5000/movimentacoes/${id}`);
+        await Api.api.delete(`/movimentacoes/${id}`);
         voltar();
       } catch (erro) {
         console.error("Erro ao excluir:", erro);
@@ -65,8 +65,7 @@ export default function FormRecDes() {
   // Carregar dados para edição
   useEffect(() => {
     if (id) {
-      axios
-        .get(`http://localhost:5000/movimentacoes/${id}`)
+      Api.api.get(`/movimentacoes/${id}`)
         .then((response) => {
           const mov = response.data;
           setType(mov.type || "");
@@ -91,6 +90,7 @@ export default function FormRecDes() {
       <h1>Receita ou Despesa</h1>
 
       <form>
+        {id && (
         <div className="mb-3">
           <label htmlFor="codigo" className="form-label">
             Código
@@ -103,7 +103,7 @@ export default function FormRecDes() {
             readOnly
           />
         </div>
-
+        )}
         <div className="mb-3">
           <label htmlFor="tipoMov" className="form-label">
             Receita ou Despesa

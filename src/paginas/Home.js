@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import * as XLSX from 'xlsx'; // Importa a biblioteca xlsx
 import { saveAs } from 'file-saver'; // Importa a biblioteca file-saver
+import Api from "../servico/Api";
+import cookie from "js-cookie";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -14,18 +15,40 @@ export default function Home() {
   const [dados, setDados] = useState([]);
   const [loadingUpdate, setLoadingUpdate] = useState(false);
   const [filtroPago, setFiltroPago] = useState("todos");
+  const [nome, setNome] = useState("");
 
   const listar = async () => {
     try {
-      const { data } = await axios.get("http://localhost:5000/movimentacoes");
+      const { data } = await Api.api.get("/movimentacoes");
       setDados(data);
     } catch (error) {
       console.error("Erro ao carregar movimentações:", error);
     }
   };
+  const carregarUsuario = async () => {
+    const token = cookie.get("token"); // ou o nome do seu cookie de token
+    if (!token) {
+      setNome(""); // Sem token, limpa nome
+      return;
+    }
+
+     try {
+      // Supondo que a API tenha um endpoint para obter o usuário logado:
+      const { data } = await Api.api.get("/usuarios/me", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setNome(data.nome); // Ajuste conforme o retorno da API
+    } catch (error) {
+      console.error("Erro ao carregar dados do usuário:", error);
+      setNome("");
+    }
+  };
 
   useEffect(() => {
     listar();
+    carregarUsuario();
   }, []);
 
   const formatarData = (dataISO) => {
@@ -45,7 +68,7 @@ export default function Home() {
   const togglePago = async (id, pagoAtual) => {
     setLoadingUpdate(true);
     try {
-      await axios.put(`http://localhost:5000/movimentacoes/${id}`, {
+      await Api.api.put(`/movimentacoes/${id}`, {
         paid: !pagoAtual,
       });
       await listar(); // Recarrega os dados para refletir a mudança
@@ -139,7 +162,13 @@ export default function Home() {
   };
 
   return (
-    <div className="container mt-5">
+    <div className="container mt-5 position-relative">
+
+  {/* Texto no canto superior direito */}
+  
+    <div className="position-absolute top-0 end-0 p-3 fw-bold fs-3 text-dark">
+    {nome ? `Bem-vindo, ${nome}` : ""}
+  </div>
       <h2 className="mb-4">Resumo de Despesas</h2>
 
       <div className="mb-3 d-flex align-items-center gap-3">
