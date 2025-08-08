@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/Financias_Front_end/static/css/main.f855e6bc.css",
+    "main.js": "/Financias_Front_end/static/js/main.e0f9bb40.js",
+    "index.html": "/Financias_Front_end/index.html",
+    "main.f855e6bc.css.map": "/Financias_Front_end/static/css/main.f855e6bc.css.map",
+    "main.e0f9bb40.js.map": "/Financias_Front_end/static/js/main.e0f9bb40.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f855e6bc.css",
+    "static/js/main.e0f9bb40.js"
+  ]
+}
