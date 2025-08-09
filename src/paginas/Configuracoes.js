@@ -11,21 +11,44 @@ export default function FormEditarUsuario() {
   const [mensagem, setMensagem] = useState('');
   const [emailUsuarioLogado, setEmailUsuarioLogado] = useState('');
 
-  useEffect(() => {
-    const token = cookie.get("token");
-    Api.api.get("/usuarios/me", {
-      headers: { token }
-    })
-    .then(res => {
-      setNome(res.data.nome);
-      setEmail(res.data.email);
-      setEmailUsuarioLogado(res.data.email);
-    })
-    .catch(err => {
-      console.error(err);
-      setMensagem("Erro ao carregar dados do usuário.");
-    });
-  }, []);
+  // useEffect(() => {
+  //   const token = cookie.get("token");
+  //   Api.api.get("/usuarios/me", {
+  //     headers: { token }
+  //   })
+  //   .then(res => {
+  //     setNome(res.data.nome);
+  //     setEmail(res.data.email);
+  //     setEmailUsuarioLogado(res.data.email);
+  //     console.log(res.data)
+  //   })
+  //   .catch(err => {
+  //     console.error(err);
+  //     setMensagem("Erro ao carregar dados do usuário.");
+  //   });
+  // }, []);
+useEffect(() => {
+  const token = cookie.get("token");
+  console.log("Token obtido:", token); // <-- verificar se o token está vindo
+
+  Api.api.get("/usuarios/me", {
+    headers: { token }
+  })
+  .then(res => {
+    console.log("Resposta da API /usuarios/me:", res.data); // <-- logar resposta
+    setNome(res.data.nome);
+    setEmail(res.data.email);
+    setEmailUsuarioLogado(res.data.email);
+  })
+  .catch(err => {
+    console.error("Erro na requisição /usuarios/me:", err); // <-- logar erro completo
+    if (err.response) {
+      console.error("Status:", err.response.status);
+      console.error("Dados do erro:", err.response.data);
+    }
+    setMensagem("Erro ao carregar dados do usuário.");
+  });
+}, []);
 
   const salvar = async () => {
     const token = cookie.get("token");
