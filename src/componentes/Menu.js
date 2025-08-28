@@ -1,61 +1,112 @@
 import { NavLink } from "react-router-dom";
-import { FaChartLine, FaMoneyBillWave, FaFileInvoiceDollar, FaCogs } from "react-icons/fa";
+import { 
+  FaBars,
+  FaChartLine, 
+  FaCogs, 
+  FaMoneyBillWave, 
+  FaPiggyBank, 
+  FaCommentDots, 
+  FaPlus 
+} from "react-icons/fa";
 
-export default function Menu() {
+
+export default function Menu({ isExpanded, toggleMenu }) {
+
+
   return (
     <div
-      className="bg-dark min-vh-100 position-fixed top-0 start-0 d-flex flex-column align-items-center pt-3"
-      style={{ width: "60px", backgroundColor: "#1a1a1a", zIndex: 1030 }}
+      className="bg-body-tertiary d-flex flex-column pt-3 min-vh-100 position-fixed top-0 start-0"
+      style={{ 
+        width: isExpanded ? "250px" : "60px", 
+        zIndex: 1030,
+        transition: "width 0.3s ease-in-out"
+      }}
     >
+      <button 
+        onClick={toggleMenu} 
+        className="btn btn-light d-flex align-items-center justify-content-center mb-3 ms-2 border"
+        style={{ width: '40px', height: '40px' }}
+      >
+        <FaBars size={20} color="black" />
+      </button>
+
       <ul className="nav nav-pills flex-column mb-auto">
         <li className="nav-item mb-3">
           <NavLink
-            to="/"
+            to="/despesas"
             className={({ isActive }) =>
-              `nav-link d-flex justify-content-center p-2 rounded ${isActive ? "bg-secondary text-dark" : "text-white"}`
+              `nav-link d-flex align-items-center p-2 rounded ${!isExpanded && 'justify-content-center'} ${
+                isActive ? "bg-primary text-white" : "text-dark"
+              }`
             }
           >
-            <FaChartLine size={20} />
+            <FaMoneyBillWave size={20} />
+            {isExpanded && <span className="ms-3">Despesas</span>}
           </NavLink>
         </li>
-         <li className="nav-item mb-3">
+        <li className="nav-item mb-3">
           <NavLink
             to="/receitas"
             className={({ isActive }) =>
-              `nav-link d-flex justify-content-center p-2 rounded ${isActive ? "bg-secondary text-dark" : "text-white"}`
+              `nav-link d-flex align-items-center p-2 rounded ${!isExpanded && 'justify-content-center'} ${
+                isActive ? "bg-primary text-white" : "text-dark"
+              }`
             }
           >
-            <FaChartLine size={20} />
+            <FaPiggyBank size={20} />
+            {isExpanded && <span className="ms-3">Receitas</span>}
           </NavLink>
         </li>
         <li className="nav-item mb-3">
           <NavLink
             to="/Form_Rec_Des"
             className={({ isActive }) =>
-              `nav-link d-flex justify-content-center p-2 rounded ${isActive ? "bg-secondary text-dark" : "text-white"}`
+              `nav-link d-flex align-items-center p-2 rounded ${!isExpanded && 'justify-content-center'} ${
+                isActive ? "bg-primary text-white" : "text-dark"
+              }`
             }
           >
-            <FaMoneyBillWave size={20} />
+            <FaPlus size={20} />
+            {isExpanded && <span className="ms-3">Adicionar</span>}
           </NavLink>
         </li>
         <li className="nav-item mb-3">
           <NavLink
             to="/relatoriospage"
             className={({ isActive }) =>
-              `nav-link d-flex justify-content-center p-2 rounded ${isActive ? "bg-secondary text-dark" : "text-white"}`
+              `nav-link d-flex align-items-center p-2 rounded ${!isExpanded && 'justify-content-center'} ${
+                isActive ? "bg-primary text-white" : "text-dark"
+              }`
             }
           >
-            <FaFileInvoiceDollar size={20} />
+            <FaChartLine size={20} />
+            {isExpanded && <span className="ms-3">Relatórios</span>}
+          </NavLink>
+        </li>
+        <li className="nav-item mb-3">
+          <NavLink
+            to="/chat"
+            className={({ isActive }) =>
+              `nav-link d-flex align-items-center p-2 rounded ${!isExpanded && 'justify-content-center'} ${
+                isActive ? "bg-primary text-white" : "text-dark"
+              }`
+            }
+          >
+            <FaCommentDots size={20} />
+            {isExpanded && <span className="ms-3">Chat</span>}
           </NavLink>
         </li>
         <li className="nav-item mb-3">
           <NavLink
             to="/configuracoes"
             className={({ isActive }) =>
-              `nav-link d-flex justify-content-center p-2 rounded ${isActive ? "bg-secondary text-dark" : "text-white"}`
+              `nav-link d-flex align-items-center p-2 rounded ${!isExpanded && 'justify-content-center'} ${
+                isActive ? "bg-primary text-white" : "text-dark"
+              }`
             }
           >
             <FaCogs size={20} />
+            {isExpanded && <span className="ms-3">Configurações</span>}
           </NavLink>
         </li>
       </ul>

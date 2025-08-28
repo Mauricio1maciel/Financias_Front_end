@@ -16,6 +16,26 @@ function setTokenAxios() {
   }
 }
 
+Api.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+
+    if (error.response && error.response.status === 401) {
+      cookie.remove('token');
+      
+      delete Api.defaults.headers['token'];
+
+      window.location.href = '/login'; 
+      
+      console.error("Sessão expirada, redirecionando para o login.");
+    }
+    
+
+    return Promise.reject(error);
+  }
+);
 export default {
   setTokenAxios,
   api: Api 
