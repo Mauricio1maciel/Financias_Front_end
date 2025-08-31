@@ -11,6 +11,7 @@ dayjs.extend(timezone);
 export default function FormRecDes() {
   const navegacao = useNavigate();
   const { id } = useParams();
+   const [salvando, setSalvando] = useState(false);
 
   // Estados dos campos
   const [type, setType] = useState("");
@@ -26,6 +27,11 @@ export default function FormRecDes() {
 
   // Salvar (inserir ou atualizar)
   const salvar = async () => {
+     // Não permite salvar se já estiver em andamento
+  if (salvando) return; 
+
+  setSalvando(true); // <-- Desabilita o botão aqui
+
     const dados = {
       type,
       group_name,
@@ -46,6 +52,8 @@ export default function FormRecDes() {
     } catch (erro) {
       console.error("Erro ao salvar:", erro);
       alert("Erro ao salvar os dados. Verifique o console.");
+    }finally {
+      setSalvando(false); // <-- Reabilita o botão aqui
     }
   };
 
@@ -181,8 +189,9 @@ export default function FormRecDes() {
           type="button"
           className="btn btn-primary me-2"
           onClick={salvar}
+          disabled={salvando} // <-- Adicione a propriedade disabled
         >
-          Salvar
+          {salvando ? "Salvando..." : "Salvar"} {/* <-- Feedback visual opcional */}
         </button>
 
         <button
