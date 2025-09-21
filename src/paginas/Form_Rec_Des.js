@@ -11,53 +11,49 @@ dayjs.extend(timezone);
 export default function FormRecDes() {
   const navegacao = useNavigate();
   const { id } = useParams();
-   const [salvando, setSalvando] = useState(false);
+  const [salvando, setSalvando] = useState(false);
 
   // Estados dos campos
   const [type, setType] = useState("");
   const [group_name, setGroupName] = useState("");
   const [value, setValue] = useState("");
-  const [paid, setPaid] = useState(false);  // Estado para despesa paga
-  const [dueDateVencimento, setDueDateVencimento] = useState(""); // Estado para data de vencimento
+  const [paid, setPaid] = useState(false);
+  const [dueDateVencimento, setDueDateVencimento] = useState("");
+  const [dataLancamento, setDataLancamento] = useState("");
 
-  // Voltar para a lista
-  const voltar = () => {
-    navegacao("/");
-  };
+  // Voltar
+  const voltar = () => navegacao("/");
 
-  // Salvar (inserir ou atualizar)
+  // Salvar
   const salvar = async () => {
-     // Não permite salvar se já estiver em andamento
-  if (salvando) return; 
-
-  setSalvando(true); // <-- Desabilita o botão aqui
+    if (salvando) return;
+    setSalvando(true);
 
     const dados = {
       type,
       group_name,
       value: parseFloat(value),
       paid,
-      due_date_vencimento: dueDateVencimento || null, // envia null se vazio
+      due_date_vencimento: dueDateVencimento || null,
+      data_lancamento: dataLancamento || dayjs().format("YYYY-MM-DD"),
     };
 
     try {
       if (id) {
-        // Atualização
         await Api.api.put(`/movimentacoes/${id}`, dados);
       } else {
-        // Criação
         await Api.api.post("/movimentacoes", dados);
       }
       voltar();
     } catch (erro) {
       console.error("Erro ao salvar:", erro);
       alert("Erro ao salvar os dados. Verifique o console.");
-    }finally {
-      setSalvando(false); // <-- Reabilita o botão aqui
+    } finally {
+      setSalvando(false);
     }
   };
 
-  // Excluir registro
+  // Excluir
   const excluir = async () => {
     if (window.confirm("Deseja realmente excluir este registro?")) {
       try {
@@ -70,10 +66,11 @@ export default function FormRecDes() {
     }
   };
 
-  // Carregar dados para edição
+  // Carregar dados
   useEffect(() => {
     if (id) {
-      Api.api.get(`/movimentacoes/${id}`)
+      Api.api
+        .get(`/movimentacoes/${id}`)
         .then((response) => {
           const mov = response.data;
           setType(mov.type || "");
@@ -85,6 +82,11 @@ export default function FormRecDes() {
               ? dayjs(mov.due_date_vencimento).format("YYYY-MM-DD")
               : ""
           );
+          setDataLancamento(
+            mov.data_lancamento
+              ? dayjs(mov.data_lancamento).format("YYYY-MM-DD")
+              : ""
+          );
         })
         .catch((erro) => {
           console.error("Erro ao carregar dados:", erro);
@@ -94,126 +96,147 @@ export default function FormRecDes() {
   }, [id]);
 
   return (
-    <div style={{ marginLeft: "60px", padding: "20px" }}>
-      <h1>Receita ou Despesa</h1>
-
-      <form>
-        {id && (
-        <div className="mb-3">
-          <label htmlFor="codigo" className="form-label">
-            Código
-          </label>
-          <input
-            type="text"
-            id="codigo"
-            className="form-control"
-            value={id || ""}
-            readOnly
-          />
+    <div className="container mt-4" style={{ maxWidth: "700px" }}>
+      <div className="card shadow-sm">
+        <div className="card-header bg-primary text-white">
+          <h4 className="mb-0">{id ? "Editar Lançamento" : "Novo Lançamento"}</h4>
         </div>
-        )}
-        <div className="mb-3">
-          <label htmlFor="tipoMov" className="form-label">
-            Receita ou Despesa
-          </label>
-          <select
-            id="tipoMov"
-            className="form-control"
-            value={type}
-            onChange={(e) => setType(e.target.value)}
-          >
-            <option value="">Selecione...</option>
-            <option value="Receita">Receita</option>
-            <option value="Despesa">Despesa</option>
-          </select>
+        <div className="card-body">
+          <form>
+            {id && (
+              <div className="mb-3">
+                <label htmlFor="codigo" className="form-label">
+                  Código
+                </label>
+                <input
+                  type="text"
+                  id="codigo"
+                  className="form-control"
+                  value={id || ""}
+                  readOnly
+                />
+              </div>
+            )}
+
+            <div className="row">
+              <div className="col-md-6 mb-3">
+                <label htmlFor="tipoMov" className="form-label">
+                  Receita ou Despesa
+                </label>
+                <select
+                  id="tipoMov"
+                  className="form-select"
+                  value={type}
+                  onChange={(e) => setType(e.target.value)}
+                >
+                  <option value="">Selecione...</option>
+                  <option value="Receita">Receita</option>
+                  <option value="Despesa">Despesa</option>
+                </select>
+              </div>
+
+              <div className="col-md-6 mb-3">
+                <label htmlFor="valor" className="form-label">
+                  Valor
+                </label>
+                <input
+                  type="number"
+                  step="0.01"
+                  id="valor"
+                  className="form-control"
+                  value={value}
+                  onChange={(e) => setValue(e.target.value)}
+                />
+              </div>
+            </div>
+
+            <div className="mb-3">
+              <label htmlFor="grupo" className="form-label">
+                Descrição
+              </label>
+              <input
+                type="text"
+                id="grupo"
+                className="form-control"
+                value={group_name}
+                onChange={(e) => setGroupName(e.target.value)}
+              />
+            </div>
+
+            <div className="row">
+              <div className="col-md-6 mb-3">
+                <label htmlFor="dataLancamento" className="form-label">
+                  Data do Lançamento
+                </label>
+                <input
+                  type="date"
+                  id="dataLancamento"
+                  className="form-control"
+                  value={dataLancamento}
+                  onChange={(e) => setDataLancamento(e.target.value)}
+                />
+              </div>
+
+              <div className="col-md-6 mb-3">
+                <label htmlFor="dueDateVencimento" className="form-label">
+                  Data de Vencimento
+                </label>
+                <input
+                  type="date"
+                  id="dueDateVencimento"
+                  className="form-control"
+                  value={dueDateVencimento}
+                  onChange={(e) => setDueDateVencimento(e.target.value)}
+                />
+              </div>
+            </div>
+
+            {type === "Despesa" && (
+              <div className="form-check mb-3">
+                <input
+                  type="checkbox"
+                  id="paid"
+                  className="form-check-input"
+                  checked={paid}
+                  onChange={(e) => setPaid(e.target.checked)}
+                />
+                <label htmlFor="paid" className="form-check-label">
+                  Despesa paga
+                </label>
+              </div>
+            )}
+          </form>
         </div>
 
-        <div className="mb-3">
-          <label htmlFor="grupo" className="form-label">
-            Tipo
-          </label>
-          <input
-            type="text"
-            id="grupo"
-            className="form-control"
-            value={group_name}
-            onChange={(e) => setGroupName(e.target.value)}
-          />
-        </div>
-
-        <div className="mb-3">
-          <label htmlFor="valor" className="form-label">
-            Valor
-          </label>
-          <input
-            type="number"
-            step="0.01"
-            id="valor"
-            className="form-control"
-            value={value}
-            onChange={(e) => setValue(e.target.value)}
-          />
-        </div>
-
-        {/* Campo Data de Vencimento */}
-        <div className="mb-3">
-          <label htmlFor="dueDateVencimento" className="form-label">
-            Data de Vencimento
-          </label>
-          <input
-            type="date"
-            id="dueDateVencimento"
-            className="form-control"
-            value={dueDateVencimento}
-            onChange={(e) => setDueDateVencimento(e.target.value)}
-          />
-        </div>
-
-        {/* Exibe checkbox só se for despesa */}
-        {type === "Despesa" && (
-          <div className="form-check mb-3">
-            <input
-              type="checkbox"
-              id="paid"
-              className="form-check-input"
-              checked={paid}
-              onChange={(e) => setPaid(e.target.checked)}
-            />
-            <label htmlFor="paid" className="form-check-label">
-              Despesa paga
-            </label>
-          </div>
-        )}
-
-        <button
-          type="button"
-          className="btn btn-primary me-2"
-          onClick={salvar}
-          disabled={salvando} // <-- Adicione a propriedade disabled
-        >
-          {salvando ? "Salvando..." : "Salvar"} {/* <-- Feedback visual opcional */}
-        </button>
-
-        <button
-          type="button"
-          className="btn btn-secondary me-2"
-          onClick={voltar}
-        >
-          Cancelar
-        </button>
-
-        {id && (
+        <div className="card-footer text-end">
           <button
             type="button"
-            className="btn btn-danger"
-            onClick={excluir}
+            className="btn btn-primary me-2"
+            onClick={salvar}
+            disabled={salvando}
           >
-            Excluir
+            {salvando ? "Salvando..." : "Salvar"}
           </button>
-        )}
-      </form>
+
+          <button
+            type="button"
+            className="btn btn-secondary me-2"
+            onClick={voltar}
+          >
+            Cancelar
+          </button>
+
+          {id && (
+            <button
+              type="button"
+              className="btn btn-danger"
+              onClick={excluir}
+            >
+              Excluir
+            </button>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
-
-

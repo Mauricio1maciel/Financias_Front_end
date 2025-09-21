@@ -9,9 +9,7 @@ export default function FormLogin(){
     
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
-    
-    
-
+        const [erro, setErro] = useState(''); // estado para mensagem de erro
 
     const login = async () => {
         let body = {
@@ -28,7 +26,12 @@ export default function FormLogin(){
            navegacao('/');
         }
         }
-        catch(erro){
+        catch (erro) {
+            if (erro.response && (erro.response.status === 401 || erro.response.status === 404)) {
+                setErro("E-mail ou senha inválidos.");
+            } else {
+                setErro("Erro ao tentar fazer login. Tente novamente.");
+            }
             
         }
     }

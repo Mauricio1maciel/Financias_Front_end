@@ -6,7 +6,8 @@ import {
   FaMoneyBillWave, 
   FaPiggyBank, 
   FaCommentDots, 
-  FaPlus 
+  FaPlus,
+  FaFileAlt
 } from "react-icons/fa";
 
 
@@ -81,6 +82,19 @@ export default function Menu({ isExpanded, toggleMenu }) {
           >
             <FaChartLine size={20} />
             {isExpanded && <span className="ms-3">Relatórios</span>}
+          </NavLink>
+        </li>
+        <li className="nav-item mb-3">
+          <NavLink
+            to="/relatorioperiodo"
+            className={({ isActive }) =>
+              `nav-link d-flex align-items-center p-2 rounded ${!isExpanded && 'justify-content-center'} ${
+                isActive ? "bg-primary text-white" : "text-dark"
+              }`
+            }
+          >
+            <FaFileAlt size={20} />
+            {isExpanded && <span className="ms-3">Relatório</span>}
           </NavLink>
         </li>
         <li className="nav-item mb-3">

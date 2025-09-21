@@ -85,6 +85,7 @@ import Configuracoes from './paginas/Configuracoes';
 import FormTrocarSenha from './paginas/FormTrocarSenha';
 import FormNovoUsuario from './paginas/FormNovoUsuario';
 import Chat from './paginas/Chat';
+import RelatorioPeriodo from './paginas/RelatorioPorPeriodo';
 
 function AppContent() {
   const location = useLocation();
@@ -123,6 +124,7 @@ function AppContent() {
           <Route path='/trocarsenha' element={<PaginaSegura><FormTrocarSenha /></PaginaSegura>} />
           <Route path="/receitas" element={<PaginaSegura><Receitas /></PaginaSegura>} />
           <Route path="/relatoriospage" element={<PaginaSegura><RelatoriosPage /></PaginaSegura>} />
+          <Route path="/relatorioperiodo" element={<PaginaSegura><RelatorioPeriodo /></PaginaSegura>} />
           <Route path='/Form_Rec_Des' element={<PaginaSegura><FormRecDes /></PaginaSegura>} />
           <Route path='/Form_Rec_Des/:id' element={<PaginaSegura><FormRecDes /></PaginaSegura>} />
           <Route path='/chat' element={<PaginaSegura><Chat /></PaginaSegura>} />
