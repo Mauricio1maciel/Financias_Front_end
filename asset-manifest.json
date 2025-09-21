@@ -1,13 +1,19 @@
 {
   "files": {
-    "main.css": "/Financias_Front_end/static/css/main.f855e6bc.css",
-    "main.js": "/Financias_Front_end/static/js/main.cdfe7bfc.js",
+    "main.css": "/Financias_Front_end/static/css/main.5e625e1c.css",
+    "main.js": "/Financias_Front_end/static/js/main.7714500c.js",
+    "static/js/299.5e2ba27c.chunk.js": "/Financias_Front_end/static/js/299.5e2ba27c.chunk.js",
+    "static/js/99.b7adb3cf.chunk.js": "/Financias_Front_end/static/js/99.b7adb3cf.chunk.js",
+    "static/js/768.835b0522.chunk.js": "/Financias_Front_end/static/js/768.835b0522.chunk.js",
     "index.html": "/Financias_Front_end/index.html",
-    "main.f855e6bc.css.map": "/Financias_Front_end/static/css/main.f855e6bc.css.map",
-    "main.cdfe7bfc.js.map": "/Financias_Front_end/static/js/main.cdfe7bfc.js.map"
+    "main.5e625e1c.css.map": "/Financias_Front_end/static/css/main.5e625e1c.css.map",
+    "main.7714500c.js.map": "/Financias_Front_end/static/js/main.7714500c.js.map",
+    "299.5e2ba27c.chunk.js.map": "/Financias_Front_end/static/js/299.5e2ba27c.chunk.js.map",
+    "99.b7adb3cf.chunk.js.map": "/Financias_Front_end/static/js/99.b7adb3cf.chunk.js.map",
+    "768.835b0522.chunk.js.map": "/Financias_Front_end/static/js/768.835b0522.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.f855e6bc.css",
-    "static/js/main.cdfe7bfc.js"
+    "static/css/main.5e625e1c.css",
+    "static/js/main.7714500c.js"
   ]
 }
