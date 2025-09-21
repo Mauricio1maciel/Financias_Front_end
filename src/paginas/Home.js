@@ -362,7 +362,7 @@ export default function Home() {
           new Set(
             data.map((m) => {
               const dataRef =
-                m.data_pagamento || m.due_date_vencimento || m.created_at;
+                m.data_lancamento || m.data_pagamento || m.due_date_vencimento || m.created_at;
               return dataRef ? dayjs(dataRef).year() : dayjs().year();
             })
           )
@@ -419,12 +419,12 @@ export default function Home() {
       })
       .filter((d) => {
         if (ano === "todos" || !ano) return true;
-        const dataRef = d.data_pagamento || d.due_date_vencimento;
+        const dataRef = d.data_lancamento || d.data_pagamento || d.due_date_vencimento;
         return dataRef && dayjs(dataRef).year() === Number(ano);
       })
       .filter((d) => {
         if (mes === "todos" || !mes) return true;
-        const dataRef = d.data_pagamento || d.due_date_vencimento;
+        const dataRef = d.data_lancamento || d.data_pagamento || d.due_date_vencimento;
         return dataRef && dayjs(dataRef).month() + 1 === Number(mes);
       });
   }, [dados, filtroCategoria, ano, mes]);
