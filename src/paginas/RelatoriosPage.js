@@ -58,7 +58,7 @@ export default function RelatoriosPage() {
   const movimentacoesFiltradasPorPeriodo = todasMovimentacoes.filter(mov => {
     // Priorizar data de pagamento, senão data de vencimento, senão data de criação para definir o período.
     // Ajuste esta lógica conforme a necessidade do seu negócio para "competência" vs "caixa".
-    const dataReferencia = mov.data_pagamento || mov.due_date_vencimento;
+    const dataReferencia = mov.data_lancamento || mov.due_date_vencimento;
     if (!dataReferencia) return false; // Ignorar se não houver data de referência relevante
 
     const dataMovimentacao = dayjs(dataReferencia).tz(dayjs.tz.guess()); // Considerar fuso horário
