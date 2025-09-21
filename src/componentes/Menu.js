@@ -94,7 +94,7 @@ export default function Menu({ isExpanded, toggleMenu }) {
             }
           >
             <FaFileAlt size={20} />
-            {isExpanded && <span className="ms-3">Relatório</span>}
+            {isExpanded && <span className="ms-3">Relatório - Detalhado</span>}
           </NavLink>
         </li>
         <li className="nav-item mb-3">
