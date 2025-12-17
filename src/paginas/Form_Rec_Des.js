@@ -20,6 +20,8 @@ export default function FormRecDes() {
   const [paid, setPaid] = useState(false);
   const [dueDateVencimento, setDueDateVencimento] = useState("");
   const [dataLancamento, setDataLancamento] = useState("");
+  const [categoria, setCategoria] = useState("");
+
 
   // Voltar
   const voltar = () => navegacao("/");
@@ -30,13 +32,15 @@ export default function FormRecDes() {
     setSalvando(true);
 
     const dados = {
-      type,
-      group_name,
-      value: parseFloat(value),
-      paid,
-      due_date_vencimento: dueDateVencimento || null,
-      data_lancamento: dataLancamento || dayjs().format("YYYY-MM-DD"),
-    };
+  type,
+  categoria,
+  group_name,
+  value: parseFloat(value),
+  paid,
+  due_date_vencimento: dueDateVencimento || null,
+  data_lancamento: dataLancamento || dayjs().format("YYYY-MM-DD"),
+};
+
 
     try {
       if (id) {
@@ -68,12 +72,15 @@ export default function FormRecDes() {
 
   // Carregar dados
   useEffect(() => {
+    
+
     if (id) {
       Api.api
         .get(`/movimentacoes/${id}`)
         .then((response) => {
           const mov = response.data;
           setType(mov.type || "");
+          setCategoria(mov.categoria || "");
           setGroupName(mov.group_name || "");
           setValue(mov.value != null ? String(mov.value) : "");
           setPaid(mov.paid || false);
@@ -134,6 +141,38 @@ export default function FormRecDes() {
                   <option value="Despesa">Despesa</option>
                 </select>
               </div>
+              {type && (
+  <div className="col-md-6 mb-3">
+    <label htmlFor="categoria" className="form-label">
+      Forma de Pagamento
+    </label>
+    <select
+      id="categoria"
+      className="form-select"
+      value={categoria}
+      onChange={(e) => setCategoria(e.target.value)}
+    >
+      <option value="">Selecione...</option>
+
+      {type === "Receita" && (
+        <>
+          <option value="credito">Crédito</option>
+          <option value="pix">PIX</option>
+          <option value="voucher">Voucher</option>
+        </>
+      )}
+
+      {type === "Despesa" && (
+        <>
+          <option value="credito">Cartão de Crédito</option>
+          <option value="debito">Débito</option>
+          <option value="pix">PIX</option>
+          <option value="voucher">Voucher</option>
+        </>
+      )}
+    </select>
+  </div>
+)}
 
               <div className="col-md-6 mb-3">
                 <label htmlFor="valor" className="form-label">
