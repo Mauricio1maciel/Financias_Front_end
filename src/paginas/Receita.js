@@ -262,7 +262,7 @@ export default function Receitas() {
               <tr key={mov.id}>
                 <td className="text-center"><div className="form-check form-switch d-flex justify-content-center"><input className="form-check-input" type="checkbox" role="switch" id={`switch-receita-${mov.id}`} checked={mov.paid || false} disabled={loadingUpdate} onChange={() => toggleRecebido(mov.id, mov.paid)}/></div></td>
                 <td>{mov.group_name}</td>
-                <td className="fw-bold text-success">{formatarValor(mov.value)}</td>
+                <td className="fw-bold text-success">{formatarValor(mov.valor)}</td>
                 <td className={mov.paid ? "text-success" : (mov.due_date_vencimento && dayjs(mov.due_date_vencimento).tz(dayjs.tz.guess()).isBefore(dayjs().startOf('day'))) ? "text-danger" : "text-warning"}>
                   {mov.paid ? (<>Recebido em <br/> <strong>{formatarData(mov.data_pagamento)}</strong></>) : mov.due_date_vencimento ? ( dayjs(mov.due_date_vencimento).tz(dayjs.tz.guess()).isBefore(dayjs().startOf('day')) ? (<>Previsão Vencida <br/> <strong>{formatarData(mov.due_date_vencimento)}</strong></>) : (<>Previsto para <br/> <strong>{formatarData(mov.due_date_vencimento)}</strong></>) ) : ("Aguardando recebimento")}
                 </td>

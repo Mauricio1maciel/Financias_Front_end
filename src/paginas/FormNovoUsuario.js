@@ -9,7 +9,7 @@ export default function FormNovoUsuario() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [mensagem, setMensagem] = useState('');
-  const [carregando, setCarregando] = useState(true); // controle de carregamento
+  const [carregando, setCarregando] = useState(true);
 
   // Validação de permissão
   useEffect(() => {
@@ -21,9 +21,9 @@ export default function FormNovoUsuario() {
     .then(res => {
       if (res.data.email !== "macielmauriciio@gmail.com") {
         setMensagem("Acesso negado. Somente administradores podem cadastrar usuários.");
-        setTimeout(() => navigate("/"), 3000); // Redireciona após 3s
+        setTimeout(() => navigate("/"), 3000); 
       } else {
-        setCarregando(false); // Libera a tela
+        setCarregando(false); 
       }
     })
     .catch(err => {

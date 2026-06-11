@@ -9,7 +9,7 @@ import cookie from "js-cookie";
 import Select from "react-select";
 
 // Configuração do Dayjs
-dayjs.locale("pt-br");
+dayjs.locale("pt-br"); 
 dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.tz.setDefault(dayjs.tz.guess());
@@ -271,7 +271,7 @@ export default function Home() {
                   </div>
                 </td>
                 <td>{mov.group_name}</td>
-                <td className="fw-bold text-danger">{formatarValor(mov.value)}</td>
+                <td className="fw-bold text-danger">{formatarValor(mov.valor)}</td>
                 <td className={mov.paid ? "text-success" : mov.due_date_vencimento && dayjs(mov.due_date_vencimento).tz(dayjs.tz.guess()).isBefore(dayjs().startOf("day")) ? "text-danger" : ""}>
                   {mov.paid ? <>Pago em <br /><strong>{formatarData(mov.data_pagamento)}</strong></> : mov.due_date_vencimento && dayjs(mov.due_date_vencimento).tz(dayjs.tz.guess()).isBefore(dayjs().startOf("day")) ? <>Venceu em <br /><strong>{formatarData(mov.due_date_vencimento)}</strong></> : mov.due_date_vencimento ? <>Vence em <br /><strong>{formatarData(mov.due_date_vencimento)}</strong></> : "Data indefinida"}
                 </td>

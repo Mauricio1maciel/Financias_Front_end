@@ -32,7 +32,7 @@ export default function FormTrocarSenha() {
       const resposta = await Api.api.put(
         `/senhausuarios`,
         { senha: senhaNova },
-        { headers: { token: token } } // <-- envia o token aqui
+        { headers: { token: token } } 
       );
 
       if (resposta.status === 200) {
@@ -40,7 +40,6 @@ export default function FormTrocarSenha() {
         setSenhaNova('');
         setSenhaConfirmada('');
 
-        // Redireciona após 2 segundos
         setTimeout(() => {
           navigate('/');
         }, 2000);

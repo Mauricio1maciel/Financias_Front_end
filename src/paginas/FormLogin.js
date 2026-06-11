@@ -9,7 +9,7 @@ export default function FormLogin(){
     
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
-        const [erro, setErro] = useState(''); // estado para mensagem de erro
+        const [erro, setErro] = useState('');
 
     const login = async () => {
         let body = {
